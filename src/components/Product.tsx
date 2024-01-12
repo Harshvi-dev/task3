@@ -1,4 +1,3 @@
-import { stringify } from 'querystring'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,24 +10,21 @@ interface toDosData {
 
 const Product : React.FC = () => {
     const navigate = useNavigate();
-    const[data,setData] = useState<toDosData []>([])
+    const[APIdata,setAPIData] = useState<toDosData []>([])
     useEffect(()=>{
         const fetchData = async ()=>{
             const response = await fetch('https://jsonplaceholder.typicode.com/todos')
-            console.log(response)
             if (!response) {
                 console.log("fetch error")
             }
             const jsonData : toDosData[] = await response.json()
-            console.log("jsonData : " + JSON.stringify(jsonData));
-            const stringData = JSON.stringify(jsonData);
-            setData(jsonData)
+            setAPIData(jsonData)
             localStorage.setItem('toDos',JSON.stringify(jsonData))
         }
         if (localStorage.getItem('toDos')) {
-          var demoToDosData : any = localStorage.getItem('toDos')
-          var parseData : toDosData[] = JSON.parse(demoToDosData);
-          setData(parseData)
+          var copyOfAPIDataToDosData : any = localStorage.getItem('toDos')
+          var parseData : toDosData[] = JSON.parse(copyOfAPIDataToDosData);
+          setAPIData(parseData)
         }else{
           fetchData();
         }
@@ -41,20 +37,17 @@ const Product : React.FC = () => {
     }
     const handleDelete = (item:any) =>{
         console.log(item)
-        var demo = [...data];
-        demo.splice(item,1)
-        console.log("demo" + JSON.stringify(demo))
-        setData(demo)
-        localStorage.setItem('toDos',JSON.stringify(demo))
+        var copyOfAPIData = [...APIdata];
+        copyOfAPIData.splice(item,1)
+        console.log("copyOfAPIData" + JSON.stringify(copyOfAPIData))
+        setAPIData(copyOfAPIData)
+        localStorage.setItem('toDos',JSON.stringify(copyOfAPIData))
         // printData();
     }
     const addData = () =>{
       navigate('/add')
     }
     const printData = () =>{
-        console.log("data :"+JSON.stringify(data))
-
-
         return(
             <table className="table">
           <thead className="thead-dark">
@@ -67,7 +60,7 @@ const Product : React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
+            {APIdata.map((item, index) => (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>{item.userId}</td>

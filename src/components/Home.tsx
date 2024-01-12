@@ -10,7 +10,6 @@ const Home : React.FC = () => {
     <>
        <label> This is the Home page </label>
        <br/>
-       {/* <button onClick={navigateToProduct}>SEE PRODUCT</button> */}
        <button type="button" className="btn btn-primary" onClick={navigateToProduct}>go to product</button>
     </>
   )
