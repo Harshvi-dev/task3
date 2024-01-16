@@ -69,7 +69,14 @@ const Update: React.FC = () => {
         
     }
   };
-  const updateData = () =>{
+  const updateData = async() =>{
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${receivedData}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
     console.log("data" + JSON.stringify(data));
     var demo :any = localStorage.getItem('toDos')
     console.log(demo)
@@ -91,6 +98,13 @@ const handleAdd = async () => {
   console.log("Add data: " + JSON.stringify(addNewData));
   console.log("Original data: " + JSON.stringify(localStorageData));
 
+  const response = await fetch('https://jsonplaceholder.typicode.com/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(addNewData),
+    });
   await setLocalStorageData((prevData: toDosData[] | undefined) => {
     if (prevData) {
       return [...prevData, addNewData].filter(Boolean) as toDosData[];

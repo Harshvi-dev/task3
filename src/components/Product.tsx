@@ -36,7 +36,12 @@ const Product : React.FC = () => {
         navigate('/update',{state:{data:item}});
     }
     const handleDelete = (item:any) =>{
-        console.log(item)
+        const response = fetch(`https://jsonplaceholder.typicode.com/todos/${item}`,{
+          method:'DELETE'
+        })
+        if (!response) {
+          console.log("fetch issue");
+        }
         var copyOfAPIData = [...APIdata];
         copyOfAPIData.splice(item,1)
         console.log("copyOfAPIData" + JSON.stringify(copyOfAPIData))
