@@ -1,8 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-const Login : React.FC = () => {
+interface LoginPageProps {
+  onLogin: () => void;
+}
+const Login : React.FC<LoginPageProps> = ({ onLogin}) => {
     const navigate = useNavigate();
     const[userName,setUserName]=useState<string>('')
   const[password,setPassword]=useState<string>('')
@@ -13,10 +15,15 @@ const Login : React.FC = () => {
       setPassword(e.target.value)
     }
   }
+  const handleLogin = () => {
+    // Perform login logic
+    onLogin();
+  };
   const logIn = (e:React.MouseEvent<HTMLButtonElement>) =>{
     console.log(`userName : ${userName} password : ${password}`)
     if (userName!= '' && password!='') {
       if (userName == 'harshvi' && password=='harshu' ) {
+        onLogin();
         navigate('/home')
       }else{
         alert('enter the valid data')
@@ -76,7 +83,7 @@ const Login : React.FC = () => {
               </div>
                         
               <button onClick={logIn} className="btn btn-primary btn-block mb-4">
-                Sign up
+                Log In
               </button>
             </form>
           </div>

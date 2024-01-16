@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 interface toDosData {
   userId: number;
@@ -81,6 +82,7 @@ const Update: React.FC = () => {
       return item;
     });
     localStorage.setItem('toDos', JSON.stringify(updatedDemo));
+    toast.success('Data is Updated');
     navigate('/product');
   }
   
@@ -99,6 +101,7 @@ const handleAdd = async () => {
 
   const updatedData = localStorageData ? [...localStorageData, addNewData] : [addNewData];
   localStorage.setItem('toDos', JSON.stringify(updatedData));
+  await toast.success('Data is Added');
   navigate('/product');
 };
   return (

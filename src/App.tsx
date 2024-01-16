@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes ,Navigate } from 'react-router-dom';
 import Login from './components/login';
 import Home from './components/Home';
 import Product from './components/Product';
@@ -8,18 +8,31 @@ import Form from './components/Form';
 
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
   return (
-    <>
-    <Routes>
-      <Route path='/' element={<Login/>}></Route>
-      <Route path='/home' element={<Home/>}></Route>
-      <Route path='/product' element={<Product/>}></Route>
-      <Route path='/update' element={<Form/>}></Route>
-      <Route path='/add' element={<Form/>}></Route>
-      
-    </Routes>      
-    </>
+    // <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={isLoggedIn ? <Navigate to="/home" /> : <Login onLogin={handleLogin} />}
+        />
+        <Route path="/home" element={<Home />} />
+        <Route path="/product" element={<Product />} />
+        <Route
+          path="/update"
+          element={isLoggedIn ? <Form /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/add"
+          element={isLoggedIn ? <Form /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    // </Router>
   );
 }
 
